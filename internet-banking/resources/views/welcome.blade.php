@@ -30,7 +30,8 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">
         <img src="images/gambar.jpg" style="height: 30px; width: auto;">
-        TurtleBank</a>
+        TurtleBank
+    </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -54,7 +55,7 @@
 
 <div class="container">
     <div id="home" class="content active">
-        <h3>Welcome to Internet Banking</h3>
+        <h3>Welcome to TurtleBank</h3>
         <p>Select an option from the navigation menu to get started.</p>
     </div>
 
