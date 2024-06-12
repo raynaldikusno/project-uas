@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Internet Banking</title>
+    <title>TurtleBank</title>
     <!-- Include Bootstrap CSS for styling (optional) -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -28,7 +28,7 @@
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Internet Banking</a>
+    <a class="navbar-brand" href="#">TurtleBank</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -52,7 +52,7 @@
 
 <div class="container">
     <div id="home" class="content active">
-        <h3>Welcome to Internet Banking</h3>
+        <h3>Welcome to TurtleBank</h3>
         <p>Select an option from the navigation menu to get started.</p>
     </div>
 
