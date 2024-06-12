@@ -97,6 +97,16 @@
         <h3>Transfer Funds</h3>
         <form>
             <div class="form-group">
+                <label for="transferType">Transfer Type</label>
+                <select class="form-control" id="transferType">
+                <option value="account">Transfer with Account Number</option>
+                <option value="electricity">Electricity Bill Payment</option>
+                <option value="water">Water Bill Payment</option>
+                <option value="topUp">Top-up E-Wallet</option>
+                <option value= "bpjs">BPJS</option>
+            </select>
+    </div>
+    <div class="form-group">
                 <label for="fromAccount">From Account</label>
                 <input type="text" class="form-control" id="fromAccount" placeholder="Enter account number">
             </div>
