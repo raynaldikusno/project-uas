@@ -23,6 +23,9 @@
         .content.active {
             display: block;
         }
+        .form-group.hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -99,24 +102,29 @@
             <div class="form-group">
                 <label for="transferType">Transfer Type</label>
                 <select class="form-control" id="transferType">
-                <option value="account">Transfer with Account Number</option>
-                <option value="electricity">Electricity Bill Payment</option>
-                <option value="water">Water Bill Payment</option>
-                <option value="topUp">Top-up E-Wallet</option>
-                <option value= "bpjs">BPJS</option>
-            </select>
-    </div>
-    <div class="form-group">
+                    <option value="account">Transfer with Account Number</option>
+                    <option value="electricity">Electricity Bill Payment</option>
+                    <option value="water">Water Bill Payment</option>
+                    <option value="topUp">Top-up E-Wallet</option>
+                    <option value="bpjs">BPJS</option>
+                    <option value="virtualAccount">Virtual Account</option>
+                </select>
+            </div>
+            <div class="form-group" id="fromAccountGroup">
                 <label for="fromAccount">From Account</label>
                 <input type="text" class="form-control" id="fromAccount" placeholder="Enter account number">
             </div>
-            <div class="form-group">
+            <div class="form-group" id="toAccountGroup">
                 <label for="toAccount">To Account</label>
                 <input type="text" class="form-control" id="toAccount" placeholder="Enter account number">
             </div>
-            <div class="form-group">
+            <div class="form-group" id="amountGroup">
                 <label for="amount">Amount</label>
                 <input type="number" class="form-control" id="amount" placeholder="Enter amount">
+            </div>
+            <div class="form-group hidden" id="virtualAccountGroup">
+                <label for="virtualAccount">Virtual Account Number</label>
+                <input type="text" class="form-control" id="virtualAccount" placeholder="Enter virtual account number">
             </div>
             <button type="submit" class="btn btn-primary">Transfer</button>
         </form>
@@ -145,6 +153,26 @@
                     }
                 });
             });
+        });
+
+        const transferType = document.getElementById('transferType');
+        const fromAccountGroup = document.getElementById('fromAccountGroup');
+        const toAccountGroup = document.getElementById('toAccountGroup');
+        const amountGroup = document.getElementById('amountGroup');
+        const virtualAccountGroup = document.getElementById('virtualAccountGroup');
+
+        transferType.addEventListener('change', function () {
+            if (this.value === 'virtualAccount') {
+                fromAccountGroup.classList.add('hidden');
+                toAccountGroup.classList.add('hidden');
+                amountGroup.classList.add('hidden');
+                virtualAccountGroup.classList.remove('hidden');
+            } else {
+                fromAccountGroup.classList.remove('hidden');
+                toAccountGroup.classList.remove('hidden');
+                amountGroup.classList.remove('hidden');
+                virtualAccountGroup.classList.add('hidden');
+            }
         });
     });
 </script>
