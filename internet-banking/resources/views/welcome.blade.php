@@ -172,24 +172,18 @@
                 toAccountGroup.classList.add('hidden');
                 amountGroup.classList.add('hidden');
                 virtualAccountGroup.classList.remove('hidden');
+                isiPulsaGroup.classList.add('hidden');
+            } else if(this.value === 'isiPulsa'){
+                fromAccountGroup.classList.add('hidden');
+                toAccountGroup.classList.add('hidden');
+                amountGroup.classList.add('hidden');
+                isiPulsaGroup.classList.remove('hidden');
+                virtualAccountGroup.classList.add('hidden');
             } else {
                 fromAccountGroup.classList.remove('hidden');
                 toAccountGroup.classList.remove('hidden');
                 amountGroup.classList.remove('hidden');
                 virtualAccountGroup.classList.add('hidden');
-            }
-        });
-
-        transferType.addEventListener('change', function () {
-            if (this.value === 'isiPulsa') {
-                fromAccountGroup.classList.add('hidden');
-                toAccountGroup.classList.add('hidden');
-                amountGroup.classList.add('hidden');
-                isiPulsaGroup.classList.remove('hidden');
-            } else {
-                fromAccountGroup.classList.remove('hidden');
-                toAccountGroup.classList.remove('hidden');
-                amountGroup.classList.remove('hidden');
                 isiPulsaGroup.classList.add('hidden');
             }
         });
