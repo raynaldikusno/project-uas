@@ -100,10 +100,8 @@
                 <label for="transferType">Transfer Type</label>
                 <select class="form-control" id="transferType">
                     <option value="account">Transfer with Account Number</option>
-                    <option value="electricity">Electricity Bill Payment</option>
-                    <option value="water">Water Bill Payment</option>
                     <option value="topUp">Top-up E-Wallet</option>
-                    <option value="bpjs">BPJS</option>
+                    <option value="isiPulsa">Isi Pulsa</option>
                     <option value="virtualAccount">Virtual Account</option>
                 </select>
             </div>
@@ -118,6 +116,12 @@
             <div class="form-group" id="amountGroup">
                 <label for="amount">Amount</label>
                 <input type="number" class="form-control" id="amount" placeholder="Enter amount">
+            </div>
+            <div class="form-group hidden" id="isiPulsaGroup">
+                <label for="nomorTelepon">Nomor Telepon</label>
+                <input type="text" class="form-control" id="amount" placeholder="Enter Nomor Telepon">
+                <label for="totalPulsa">Total Pulsa</label>
+                <input type="text" class="form-control" id="amount" placeholder="Enter total pulsa">
             </div>
             <div class="form-group hidden" id="virtualAccountGroup">
                 <label for="virtualAccount">Virtual Account Number</label>
@@ -157,6 +161,7 @@
         const toAccountGroup = document.getElementById('toAccountGroup');
         const amountGroup = document.getElementById('amountGroup');
         const virtualAccountGroup = document.getElementById('virtualAccountGroup');
+        const isiPulsaGroup = document.getElementById('isiPulsaGroup')
 
         transferType.addEventListener('change', function () {
             if (this.value === 'virtualAccount') {
@@ -164,11 +169,19 @@
                 toAccountGroup.classList.add('hidden');
                 amountGroup.classList.add('hidden');
                 virtualAccountGroup.classList.remove('hidden');
+                isiPulsaGroup.classList.add('hidden');
+            } else if(this.value === 'isiPulsa'){
+                fromAccountGroup.classList.add('hidden');
+                toAccountGroup.classList.add('hidden');
+                amountGroup.classList.add('hidden');
+                isiPulsaGroup.classList.remove('hidden');
+                virtualAccountGroup.classList.add('hidden');
             } else {
                 fromAccountGroup.classList.remove('hidden');
                 toAccountGroup.classList.remove('hidden');
                 amountGroup.classList.remove('hidden');
                 virtualAccountGroup.classList.add('hidden');
+                isiPulsaGroup.classList.add('hidden');
             }
         });
     });
