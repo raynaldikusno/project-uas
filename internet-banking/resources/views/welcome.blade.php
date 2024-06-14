@@ -23,9 +23,6 @@
         .content.active {
             display: block;
         }
-        .form-group.hidden {
-            display: none;
-        }
     </style>
 </head>
 <body>
@@ -60,6 +57,8 @@
     <div id="home" class="content active">
         <h3>Welcome to TurtleBank</h3>
         <p>Select an option from the navigation menu to get started.</p>
+        <!-- Dashboard Button -->
+        <a href="{{ route('dashboard') }}" class="btn btn-primary">Go to Dashboard</a>
     </div>
 
     <div id="accounts" class="content">
@@ -103,38 +102,30 @@
                 <label for="transferType">Transfer Type</label>
                 <select class="form-control" id="transferType">
                     <option value="account">Transfer with Account Number</option>
+                    <option value="electricity">Electricity Bill Payment</option>
+                    <option value="water">Water Bill Payment</option>
                     <option value="topUp">Top-up E-Wallet</option>
-                    <option value="isiPulsa">Isi Pulsa</option>
-                    <option value="virtualAccount">Virtual Account</option>
+                    <option value="bpjs">BPJS</option>
                 </select>
             </div>
-            <div class="form-group" id="fromAccountGroup">
+            <div class="form-group">
                 <label for="fromAccount">From Account</label>
                 <input type="text" class="form-control" id="fromAccount" placeholder="Enter account number">
             </div>
-            <div class="form-group" id="toAccountGroup">
+            <div class="form-group">
                 <label for="toAccount">To Account</label>
                 <input type="text" class="form-control" id="toAccount" placeholder="Enter account number">
             </div>
-            <div class="form-group" id="amountGroup">
+            <div class="form-group">
                 <label for="amount">Amount</label>
                 <input type="number" class="form-control" id="amount" placeholder="Enter amount">
-            </div>
-            <div class="form-group hidden" id="isiPulsaGroup">
-                <label for="nomorTelepon">Nomor Telepon</label>
-                <input type="text" class="form-control" id="amount" placeholder="Enter Nomor Telepon">
-                <label for="totalPulsa">Total Pulsa</label>
-                <input type="text" class="form-control" id="amount" placeholder="Enter total pulsa">
-            </div>
-            <div class="form-group hidden" id="virtualAccountGroup">
-                <label for="virtualAccount">Virtual Account Number</label>
-                <input type="text" class="form-control" id="virtualAccount" placeholder="Enter virtual account number">
             </div>
             <button type="submit" class="btn btn-primary">Transfer</button>
         </form>
     </div>
 </div>
 
+<!-- Include Bootstrap JS and dependencies (optional) -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -156,35 +147,6 @@
                     }
                 });
             });
-        });
-
-        const transferType = document.getElementById('transferType');
-        const fromAccountGroup = document.getElementById('fromAccountGroup');
-        const toAccountGroup = document.getElementById('toAccountGroup');
-        const amountGroup = document.getElementById('amountGroup');
-        const virtualAccountGroup = document.getElementById('virtualAccountGroup');
-        const isiPulsaGroup = document.getElementById('isiPulsaGroup')
-
-        transferType.addEventListener('change', function () {
-            if (this.value === 'virtualAccount') {
-                fromAccountGroup.classList.add('hidden');
-                toAccountGroup.classList.add('hidden');
-                amountGroup.classList.add('hidden');
-                virtualAccountGroup.classList.remove('hidden');
-                isiPulsaGroup.classList.add('hidden');
-            } else if(this.value === 'isiPulsa'){
-                fromAccountGroup.classList.add('hidden');
-                toAccountGroup.classList.add('hidden');
-                amountGroup.classList.add('hidden');
-                isiPulsaGroup.classList.remove('hidden');
-                virtualAccountGroup.classList.add('hidden');
-            } else {
-                fromAccountGroup.classList.remove('hidden');
-                toAccountGroup.classList.remove('hidden');
-                amountGroup.classList.remove('hidden');
-                virtualAccountGroup.classList.add('hidden');
-                isiPulsaGroup.classList.add('hidden');
-            }
         });
     });
 </script>
