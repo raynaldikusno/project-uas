@@ -28,7 +28,7 @@
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">TurtleBank</a>
+    <a class="navbar-brand" href="#">Internet Banking</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -54,6 +54,8 @@
     <div id="home" class="content active">
         <h3>Welcome to TurtleBank</h3>
         <p>Select an option from the navigation menu to get started.</p>
+        <!-- Dashboard Button -->
+        <a href="{{ route('dashboard') }}" class="btn btn-primary">Go to Dashboard</a>
     </div>
 
     <div id="accounts" class="content">
@@ -93,6 +95,16 @@
     <div id="transfer" class="content">
         <h3>Transfer Funds</h3>
         <form>
+            <div class="form-group">
+                <label for="transferType">Transfer Type</label>
+                <select class="form-control" id="transferType">
+                    <option value="account">Transfer with Account Number</option>
+                    <option value="electricity">Electricity Bill Payment</option>
+                    <option value="water">Water Bill Payment</option>
+                    <option value="topUp">Top-up E-Wallet</option>
+                    <option value="bpjs">BPJS</option>
+                </select>
+            </div>
             <div class="form-group">
                 <label for="fromAccount">From Account</label>
                 <input type="text" class="form-control" id="fromAccount" placeholder="Enter account number">

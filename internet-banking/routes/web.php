@@ -1,13 +1,37 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\TransferController;
 use App\Http\Controllers\HomeController;
+use Illuminate\Support\Facades\Auth;
 
-Auth::routes();
+Route::get('/home', function () {
+    return view('welcome');
+});
 
-// Define the routes for the different pages
-Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/accounts', [AccountController::class, 'index'])->name('accounts')->middleware('auth');
-Route::get('/transfer', [TransferController::class, 'create'])->name('transfer')->middleware('auth');
-Route::post('/transfer', [TransferController::class, 'store'])->middleware('auth');
+Route::get('/', function () {
+    return redirect()->route('login');
+});
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/home', [HomeController::class, 'index'])->name('home')->middleware('auth');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/accounts', [AccountController::class, 'index'])->name('accounts')->middleware('auth');
+    Route::get('/transfer', [TransferController::class, 'create'])->name('transfer')->middleware('auth');
+    Route::post('/transfer', [TransferController::class, 'store'])->middleware('auth');
+
+    Auth::routes();
+
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+});
+
+require __DIR__.'/auth.php';
