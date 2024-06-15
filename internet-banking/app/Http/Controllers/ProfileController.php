@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use App\Models\User;
+
 
 class ProfileController extends Controller
 {
@@ -16,8 +18,15 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
+        $profile_images = [
+            'image1.png',
+            'image2.png',
+            'image3.png',
+            // tambahkan nama file gambar lainnya
+        ];
         return view('profile.edit', [
             'user' => $request->user(),
+            'profile_images' => $profile_images,
         ]);
     }
 
@@ -58,3 +67,4 @@ class ProfileController extends Controller
         return Redirect::to('/');
     }
 }
+

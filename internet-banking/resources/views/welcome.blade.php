@@ -61,6 +61,19 @@
         <a href="{{ route('dashboard') }}" class="btn btn-primary">Go to Dashboard</a>
     </div>
 
+    <div class="account-profile">
+        <h2>{{ __('Account Profile') }}</h2>
+        @if ($user->profile_image)
+            <img src="\internet-banking\public\images\profile1.jpg{{ $user->profile_image }}" alt="Profile Image" width="150">
+        @else
+            <p>No profile image selected.</p>
+        @endif
+        <div class="profile-details">
+            <p>{{ __('Name') }}: {{ $user->name }}</p>
+            <p>{{ __('Email') }}: {{ $user->email }}</p>
+        </div>
+    </div>
+    
     <div id="accounts" class="content">
         <h3>Account Summary</h3>
         <p>Account Number: 1234567890</p>

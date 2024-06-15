@@ -27,6 +27,39 @@
             <x-input-label for="email" :value="__('Email')" />
             <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
             <x-input-error class="mt-2" :messages="$errors->get('email')" />
+        </div>
+        
+        <div>
+            <x-input-label for="profile_image" :value="__('Profil')" />
+            <div class="mt-1 block w-full">
+                <label>
+                    <input type="radio" name="profile_image" value="profile1.jpg" required>
+                    <img src="/images/profile1.jpg" alt="Profil 1" width="100">
+                </label>
+                <label>
+                    <input type="radio" name="profile_image" value="profile2.jpg" required>
+                    <img src="/images/profile2.jpg" alt="Profil 2" width="100">
+                </label>
+                <label>
+                    <input type="radio" name="profile_image" value="profile3.jpg" required>
+                    <img src="/images/profile3.jpg" alt="Profil 3" width="100">
+                </label>
+                <label>
+                    <input type="radio" name="profile_image" value="profile4.jpg" required>
+                    <img src="/images/profile4.jpg" alt="Profil 4" width="100">
+                </label>
+                <label>
+                    <input type="radio" name="profile_image" value="profile5.jpg" required>
+                    <img src="/images/profile5.jpg" alt="Profil 5" width="100">
+                </label>
+                <label>
+                    <input type="radio" name="profile_image" value="profile6.jpg" required>
+                    <img src="/images/profile6.jpg" alt="Profil 64" width="100">
+                </label>
+                <!-- Tambahkan lebih banyak pilihan gambar profil sesuai kebutuhan -->
+            </div>
+            <x-input-error class="mt-2" :messages="$errors->get('profile_image')" />
+        </div>
 
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
                 <div>
