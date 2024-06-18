@@ -25,7 +25,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::patch('/profile/update', [ProfileController::class, 'update'])->name('profile.update')->middleware('auth');
+
     Route::get('/accounts', [AccountController::class, 'index'])->name('accounts')->middleware('auth');
+    Route::get('/account', [AccountController::class, 'show'])->name('account.show');
+    Route::put('/account', [AccountController::class, 'update'])->name('account.update');
+
     Route::get('/transfer', [TransferController::class, 'create'])->name('transfer')->middleware('auth');
     Route::post('/transfer', [TransferController::class, 'store'])->middleware('auth');
 

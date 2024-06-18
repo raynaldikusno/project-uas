@@ -1,10 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
-use Auth;
-
+use Illuminate\Support\Facades\Auth;
 
 class AccountController extends Controller
 {
@@ -17,5 +14,13 @@ class AccountController extends Controller
 
         return view('accounts.index', compact('accountDetails'));
     }
+
+    public function show()
+    {
+        $user = Auth::user(); // Mendapatkan pengguna yang sedang login
+        return view('account', compact('user'));
+    }
+
+    
 }
 

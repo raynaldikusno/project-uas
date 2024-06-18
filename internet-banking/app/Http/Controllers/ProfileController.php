@@ -18,16 +18,7 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        $profile_images = [
-            'image1.png',
-            'image2.png',
-            'image3.png',
-            // tambahkan nama file gambar lainnya
-        ];
-        return view('profile.edit', [
-            'user' => $request->user(),
-            'profile_images' => $profile_images,
-        ]);
+        return view('profile.edit', ['user' => Auth::user()]);
     }
 
     /**
@@ -35,13 +26,24 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'profile_image' => 'required|string'
+        ]);
+
+        $user = $request->user();
+        $user->fill($validated);
 
         if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+            $user->email_verified_at = null;
         }
 
-        $request->user()->save();
+        if ($request->has('profile')) {
+            $user->profile = $request->input('profile');
+        }
+
+        $user->save();
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }

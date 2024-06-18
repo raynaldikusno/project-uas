@@ -61,24 +61,37 @@
         <a href="{{ route('dashboard') }}" class="btn btn-primary">Go to Dashboard</a>
     </div>
 
-    <div class="account-profile">
-        <h2>{{ __('Account Profile') }}</h2>
-        @if ($user->profile_image)
-            <img src="\internet-banking\public\images\profile1.jpg{{ $user->profile_image }}" alt="Profile Image" width="150">
-        @else
-            <p>No profile image selected.</p>
-        @endif
-        <div class="profile-details">
-            <p>{{ __('Name') }}: {{ $user->name }}</p>
-            <p>{{ __('Email') }}: {{ $user->email }}</p>
-        </div>
-    </div>
-    
+    <style>
+        .profile-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2pt solid rgb(12, 115, 82);
+        }
+    </style>
     <div id="accounts" class="content">
         <h3>Account Summary</h3>
-        <p>Account Number: 1234567890</p>
-        <p>Balance: $5,000.00</p>
+        <form method="POST" action="{{ route('profile.update') }}">
+        </form>
+        
+        <!-- Menampilkan gambar profil yang dipilih -->
+        <div class="mt-4">
+        </div>
+        @if ($user->profile_image)
+            <img src="{{ asset('images/' . $user->profile_image) }}" alt="Profile Image" class="profile-image" />
+        @else
+            <img src="{{ asset('images/default.jpg') }}" alt="Profile Image" class="profile-image" />
+        @endif
+        <p>Name: {{ $user->name }}</p>
+        <p>Email: {{ $user->email }}</p>
+        <p>Account Number: {{ $user->account_number }}</p>
+        <p>Balance: ${{ number_format($user->balance, 2) }}</p>
     </div>
+
+    
+                    <!-- Profile Update Form -->
+
 
     <div id="transactions" class="content">
         <h3>Recent Transactions</h3>

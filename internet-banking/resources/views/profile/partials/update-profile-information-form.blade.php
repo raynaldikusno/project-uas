@@ -9,6 +9,8 @@
         </p>
     </header>
 
+    
+
     <form id="send-verification" method="post" action="{{ route('verification.send') }}">
         @csrf
     </form>
@@ -28,57 +30,56 @@
             <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
             <x-input-error class="mt-2" :messages="$errors->get('email')" />
         </div>
-        
+
         <div>
-            <x-input-label for="profile_image" :value="__('Profil')" />
+            <x-input-label for="profile_image" :value="__('Profile Image')" />
             <div class="mt-1 block w-full">
                 <label>
-                    <input type="radio" name="profile_image" value="profile1.jpg" required>
-                    <img src="/images/profile1.jpg" alt="Profil 1" width="100">
+                    <input type="radio" name="profile_image" value="profile1.jpg" {{ $user->profile == 'profile1.jpg' ? 'checked' : '' }} required>
+                    <img src="/images/profile1.jpg" alt="Profile 1" width="100">
                 </label>
                 <label>
-                    <input type="radio" name="profile_image" value="profile2.jpg" required>
-                    <img src="/images/profile2.jpg" alt="Profil 2" width="100">
+                    <input type="radio" name="profile_image" value="profile2.jpg" {{ $user->profile == 'profile2.jpg' ? 'checked' : '' }} required>
+                    <img src="/images/profile2.jpg" alt="Profile 2" width="100">
                 </label>
                 <label>
-                    <input type="radio" name="profile_image" value="profile3.jpg" required>
-                    <img src="/images/profile3.jpg" alt="Profil 3" width="100">
+                    <input type="radio" name="profile_image" value="profile3.jpg" {{ $user->profile == 'profile3.jpg' ? 'checked' : '' }} required>
+                    <img src="/images/profile3.jpg" alt="Profile 3" width="100">
                 </label>
                 <label>
-                    <input type="radio" name="profile_image" value="profile4.jpg" required>
-                    <img src="/images/profile4.jpg" alt="Profil 4" width="100">
+                    <input type="radio" name="profile_image" value="profile4.jpg" {{ $user->profile == 'profile4.jpg' ? 'checked' : '' }} required>
+                    <img src="/images/profile4.jpg" alt="Profile 4" width="100">
                 </label>
                 <label>
-                    <input type="radio" name="profile_image" value="profile5.jpg" required>
-                    <img src="/images/profile5.jpg" alt="Profil 5" width="100">
+                    <input type="radio" name="profile_image" value="profile5.jpg" {{ $user->profile == 'profile5.jpg' ? 'checked' : '' }} required>
+                    <img src="/images/profile5.jpg" alt="Profile 5" width="100">
                 </label>
                 <label>
-                    <input type="radio" name="profile_image" value="profile6.jpg" required>
-                    <img src="/images/profile6.jpg" alt="Profil 64" width="100">
+                    <input type="radio" name="profile_image" value="profile6.jpg" {{ $user->profile == 'profile6.jpg' ? 'checked' : '' }} required>
+                    <img src="/images/profile6.jpg" alt="Profile 6" width="100">
                 </label>
-                <!-- Tambahkan lebih banyak pilihan gambar profil sesuai kebutuhan -->
+                <!-- Add more profile image options if needed -->
             </div>
             <x-input-error class="mt-2" :messages="$errors->get('profile_image')" />
         </div>
 
-            @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
-                <div>
-                    <p class="text-sm mt-2 text-gray-800">
-                        {{ __('Your email address is unverified.') }}
+        @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
+            <div>
+                <p class="text-sm mt-2 text-gray-800">
+                    {{ __('Your email address is unverified.') }}
 
-                        <button form="send-verification" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            {{ __('Click here to re-send the verification email.') }}
-                        </button>
+                    <button form="send-verification" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        {{ __('Click here to re-send the verification email.') }}
+                    </button>
+                </p>
+
+                @if (session('status') === 'verification-link-sent')
+                    <p class="mt-2 font-medium text-sm text-green-600">
+                        {{ __('A new verification link has been sent to your email address.') }}
                     </p>
-
-                    @if (session('status') === 'verification-link-sent')
-                        <p class="mt-2 font-medium text-sm text-green-600">
-                            {{ __('A new verification link has been sent to your email address.') }}
-                        </p>
-                    @endif
-                </div>
-            @endif
-        </div>
+                @endif
+            </div>
+        @endif
 
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
