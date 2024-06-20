@@ -22,6 +22,7 @@ class User extends Authenticatable
         'email',
         'password',
         'profile_image',
+        'account_number',
     ];
 
     /**
@@ -47,19 +48,15 @@ class User extends Authenticatable
         ];
     }
 
-    protected static function booted()
+    public static function generateAccountNumber()
     {
-        static::creating(function ($user) {
-            // Generate a unique account number starting from 5352300000
-            $initialAccountNumber = 5352300000;
-            $maxAccountNumber = User::max('account_number');
-
-            if ($maxAccountNumber) {
-                $user->account_number = $maxAccountNumber + 1;
-            } else {
-                $user->account_number = $initialAccountNumber;
-            }
-        });
+        $prefix = '53520000';
+        do {
+            $number = $prefix . str_pad(rand(0, 99999999), 8, '0', STR_PAD_LEFT);
+        } while (self::where('account_number', $number)->exists());
+    
+        return $number;
     }
+
 
 }

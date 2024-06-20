@@ -35,10 +35,12 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        $accountNumber = User::generateAccountNumber();
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'account_number' => $accountNumber,
         ]);
 
         event(new Registered($user));
