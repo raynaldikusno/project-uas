@@ -50,7 +50,7 @@ class User extends Authenticatable
 
     public static function generateAccountNumber()
     {
-        $prefix = '53520000';
+        $prefix = '53520';
         do {
             $number = $prefix . str_pad(rand(0, 99999999), 8, '0', STR_PAD_LEFT);
         } while (self::where('account_number', $number)->exists());
