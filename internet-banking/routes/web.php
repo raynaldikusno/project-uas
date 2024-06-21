@@ -33,6 +33,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/transfer', [TransferController::class, 'create'])->name('transfer')->middleware('auth');
     Route::post('/transfer', [TransferController::class, 'store'])->middleware('auth');
+    Route::post('/transfer', [TransferController::class, 'store'])->name('transfer.store');
 
     Auth::routes();
 

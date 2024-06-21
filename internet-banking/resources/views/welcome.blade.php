@@ -1,13 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TurtleBank</title>
-    <!-- Include Bootstrap CSS for styling -->
+    <!-- Include Bootstrap CSS for styling (optional) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <!-- Include SweetAlert CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert/dist/sweetalert.css">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert/dist/sweetalert.css">
+
     <style>
         body {
             background-color: var(--bs-body-bg);
@@ -28,13 +29,13 @@
         .form-group.hidden {
             display: none;
         }
+
     </style>
 </head>
 <body>
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">
-        <img src="images/gambarkura.png" style="height: 30px; width: auto;">
+        <img src="images/gambar.jpg" style="height: 30px; width: auto;">
         TurtleBank
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,7 +58,6 @@
         </ul>
     </div>
 </nav>
-
 <div class="container">
     <div id="home" class="content active">
         <h3>Welcome to TurtleBank</h3>
@@ -66,12 +66,40 @@
         <a href="{{ route('dashboard') }}" class="btn btn-primary">Go to Dashboard</a>
     </div>
 
+    
+    <style>
+        .profile-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2pt solid rgb(12, 115, 82);
+        }
+    </style>
     <div id="accounts" class="content">
         <h3>Account Summary</h3>
-        <p>Account Number: 1234567890</p>
-        <p>Balance: $5,000.00</p>
+        <form method="POST" action="{{ route('profile.update') }}">
+        </form>
+        
+        <!-- Menampilkan gambar profil yang dipilih -->
+        <div class="mt-4">
+        </div>
+        @if ($user->profile_image)
+            <img src="{{ asset('images/' . $user->profile_image) }}" alt="Profile Image" class="profile-image" />
+        @else
+            <img src="{{ asset('images/default.jpg') }}" alt="Profile Image" class="profile-image" />
+        @endif
+        <p>Name: {{ $user->name }}</p>
+        <p>Email: {{ $user->email }}</p>
+        <p>Account Number: {{ $user->account_number }}</p>
+        <p>Balance: ${{ number_format($user->balance, 2) }}</p>
     </div>
 
+
+   
+
+    
+   
     <div id="transactions" class="content">
         <h3>Transactions</h3>
         <div class="table-responsive">
@@ -141,8 +169,10 @@
     </div>
 
     <div id="transfer" class="content">
-        <h3>Transfer Funds</h3>
-        <form>
+    <h3>Transfer Funds</h3>
+    <form method="POST" action="{{ route('transfer.store') }}">
+        @csrf
+       
             <div class="form-group">
                 <label for="transferType">Transfer Type</label>
                 <select class="form-control" id="transferType">
@@ -192,13 +222,13 @@
                 <button type="button" class="btn btn-outline-success" onclick="showSwal('success-message')">Transfer</button>
             </div>
         </form>
-    </div>
 </div>
 
 <!-- Include jQuery, Bootstrap JS, and SweetAlert JS -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -250,62 +280,81 @@
         });
     });
     
+    
     function showSwal(type) {
     'use strict';
     if (type === 'success-message') {
-        // Check if required fields are filled
-        if (transferType.value === 'account') {
-            // If transferring with account number, check if account fields are filled
-            const fromAccount = document.getElementById('fromAccount').value.trim();
-            const toAccount = document.getElementById('toAccount').value.trim();
-            const amount = document.getElementById('amount').value.trim();
+        let formData = {};
+        let isValid = true;
 
-            if (fromAccount === '' || toAccount === '' || amount === '') {
-                swal("Error", "Please fill in all account details.", "error");
-                return;
+        // Ambil data formulir berdasarkan jenis transfer
+        if (transferType.value === 'account') {
+            formData = {
+                fromAccount: document.getElementById('fromAccount').value.trim(),
+                toAccount: document.getElementById('toAccount').value.trim(),
+                amount: document.getElementById('amount').value.trim()
+            };
+
+            // Periksa apakah nomor akun telah diisi
+            if (formData.fromAccount === '' || formData.toAccount === '') {
+                isValid = false;
             }
         } else if (transferType.value === 'topUp') {
-            // If topping up e-wallet, check if e-wallet fields are filled
-            const ewalletAccount = document.getElementById('ewalletAccount').value.trim();
-            const topUpAmount = document.getElementById('topUpAmount').value.trim();
-
-            if (ewalletAccount === '' || topUpAmount === '') {
-                swal("Error", "Please fill in all e-wallet details.", "error");
-                return;
+            formData = {
+                ewalletAccount: document.getElementById('ewalletAccount').value.trim(),
+                topUpAmount: document.getElementById('topUpAmount').value.trim()
+            };
+            // Periksa apakah nomor akun e-wallet telah diisi
+            if (formData.ewalletAccount === '') {
+                isValid = false;
             }
         } else if (transferType.value === 'isiPulsa') {
-            // If topping up mobile credit, check if mobile credit fields are filled
-            const nomorTelepon = document.getElementById('nomorTelepon').value.trim();
-            const totalPulsa = document.getElementById('totalPulsa').value.trim();
-
-            if (nomorTelepon === '' || totalPulsa === '') {
-                swal("Error", "Please fill in all mobile credit details.", "error");
-                return;
+            formData = {
+                nomorTelepon: document.getElementById('nomorTelepon').value.trim(),
+                totalPulsa: document.getElementById('totalPulsa').value.trim()
+            };
+            // Periksa apakah nomor telepon dan total pulsa telah diisi
+            if (formData.nomorTelepon === '' || formData.totalPulsa === '') {
+                isValid = false;
             }
         } else if (transferType.value === 'virtualAccount') {
-            // If using virtual account, check if virtual account field is filled
-            const virtualAccount = document.getElementById('virtualAccount').value.trim();
-
-            if (virtualAccount === '') {
-                swal("Error", "Please fill in the virtual account number.", "error");
-                return;
+            formData = {
+                virtualAccount: document.getElementById('virtualAccount').value.trim()
+            };
+            // Periksa apakah virtual account telah diisi
+            if (formData.virtualAccount === '') {
+                isValid = false;
             }
         }
 
-        // If all checks pass, show success message
-        swal({
-            title: 'Selamat',
-            text: 'Transaksi Anda berhasil',
-            icon: 'success',
-            button: {
-                text: "Continue",
-                value: true,
-                visible: true,
-                className: "btn btn-primary"
-            }
-        });
+        // Jika data tidak valid, tampilkan pesan kesalahan
+        if (!isValid) {
+            swal('Error', 'Silakan lengkapi semua kolom yang diperlukan.', 'error');
+            return;
+        }
+
+        // Kirim data ke server menggunakan Axios jika valid
+        axios.post('{{ route('transfer.store') }}', formData)
+            .then(function(response) {
+                // Tanggapan dari server (opsional)
+                console.log(response.data);
+                // Tampilkan notifikasi sukses kepada pengguna
+                swal({
+                    title: 'Sukses',
+                    text: 'Transaksi berhasil disimpan.',
+                    icon: 'success'
+                }).then((value) => {
+                    // Lakukan pengalihan halaman atau tindakan lain jika diperlukan
+                    window.location.href = '{{ route('transfer.store') }}'; // Ganti dengan URL tujuan
+                });
+            })
+            .catch(function(error) {
+                // Tanggapan jika terjadi kesalahan
+                console.error(error);
+                swal('Error', 'Terjadi kesalahan saat melakukan transfer.', 'error');
+            });
     } else {
-        swal("Error occurred!");
+        swal('Terjadi kesalahan!');
     }
 }
 </script>
