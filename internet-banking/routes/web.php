@@ -40,10 +40,14 @@ Route::middleware('auth')->group(function () {
         Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::post('/profile/topup', [ProfileController::class, 'topup'])->name('profile.topup');
         Route::post('/profile/delete', [ProfileController::class, 'destroy'])->name('profile.delete');
+        Route::middleware(['auth'])->group(function () {
+            // Routes for transfers
+            Route::get('/transfers/create', [TransferController::class, 'create'])->name('transfers.create');
+            // Route::post('/transfers/store', [TransferController::class, 'store'])->name('transfers.store');
+            // Route::get('/transfers/create', 'TransferController@create')->name('transfers.create');
+            Route::post('/transfer', [TransferController::class, 'store'])->name('transfer.store');
 
-        Route::get('/transfers/create', [TransferController::class, 'create'])->name('transfers.create');
-
-
+        });
 
 
     });

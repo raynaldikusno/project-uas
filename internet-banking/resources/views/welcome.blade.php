@@ -238,7 +238,6 @@
             </div>
 
                 <button type="button" class="btn btn-outline-success" onclick="showSwal('success-message')">Transfer</button>
-            </div>
         </form>
 </div>
 
@@ -374,6 +373,7 @@
     } else {
         swal('Terjadi kesalahan!');
     }
+   
 }
 </script>
 </body>
