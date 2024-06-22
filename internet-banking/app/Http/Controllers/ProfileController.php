@@ -68,5 +68,54 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+    public function updateProfile(Request $request)
+    {
+        $user = auth()->user();
+
+        // Validate input
+        $request->validate([
+            'action' => 'required|in:topup,withdraw',
+            'amount' => 'required|numeric|min:0',
+        ]);
+
+        // Perform action based on 'action' parameter
+        if ($request->action == 'topup') {
+            // Top-up balance
+            $user->balance += $request->amount;
+            $user->save();
+
+            return redirect()->back()->with('success', 'Balance topped up successfully!');
+        } elseif ($request->action == 'withdraw') {
+            // Check if sufficient balance
+            if ($request->amount > $user->balance) {
+                return redirect()->back()->with('error', 'Insufficient balance!');
+            }
+
+            // Withdraw balance
+            $user->balance -= $request->amount;
+            $user->save();
+
+            return redirect()->back()->with('success', 'Balance withdrawn successfully!');
+        }
+
+        // If 'action' is neither topup nor withdraw
+        return redirect()->back()->with('error', 'Invalid action!');
+    }
+    public function topup(Request $request)
+    {
+        $user = Auth::user();
+
+        // Validate input amount
+        $request->validate([
+            'amount' => 'required|numeric|min:0',
+        ]);
+
+        // Add to user's balance
+        $user->balance += $request->amount;
+        $user->save();
+
+        // Redirect back with success message
+        return redirect()->back()->with('success', 'Balance topped up successfully!');
+    }
 }
 

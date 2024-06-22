@@ -78,9 +78,27 @@
     </style>
     <div id="accounts" class="content">
         <h3>Account Summary</h3>
-        <form method="POST" action="{{ route('profile.update') }}">
+        @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
+        <form method="POST" action="{{ route('profile.topup') }}">
+        @csrf
+        <label for="topup_amount">Top-up Amount:</label>
+        <input type="number" id="topup_amount" name="amount" step="0.01" required>
+        <button type="submit" class="btn btn-sm btn-success">
+            <i class="mdi mdi-plus"></i> Tambah Uang
+        </button>
         </form>
         
+        <form method="POST" action="{{ route('profile.update') }}">
+        @csrf
+        <input type="hidden" name="action" value="withdraw">
+        <label for="withdraw_amount">Withdraw Amount:</label>
+        <input type="number" id="withdraw_amount" name="amount" step="0.01" required>
+        <button type="submit" class="btn btn-sm btn-danger">
+            <i class="mdi mdi-minus"></i> Tarik Uang
+        </button>
+    </form>
         <!-- Menampilkan gambar profil yang dipilih -->
         <div class="mt-4">
         </div>

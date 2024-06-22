@@ -19,13 +19,17 @@ class TransferController extends Controller
 
         // Simpan data ke dalam database
         $transfer = new Transfer();
-        $transfer->fromAccount = $request->fromAccount;
-        $transfer->toAccount = $request->toAccount;
-        $transfer->amount = $request->amount;
+        $transfer->from_account  = $request->fromAccount;
+        $transfer->to_account  = $request->toAccount;
+        $transfer->amount  = $request->amount;
 
         $transfer->save();
 
         return redirect()->back()->with('success', 'Transfer berhasil disimpan.');
+    }
+    public function create()
+    {
+        return view('transfers.create');
     }
 
 }

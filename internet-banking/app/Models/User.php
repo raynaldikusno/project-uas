@@ -58,8 +58,11 @@ class User extends Authenticatable
                 $user->account_number = $maxAccountNumber + 1;
             } else {
                 $user->account_number = $initialAccountNumber;
+
+                $user->balance = 0;
+
             }
         });
     }
-
+    
 }

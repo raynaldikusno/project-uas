@@ -35,6 +35,19 @@ Route::middleware('auth')->group(function () {
     Route::post('/transfer', [TransferController::class, 'store'])->middleware('auth');
     Route::post('/transfer', [TransferController::class, 'store'])->name('transfer.store');
 
+    Route::middleware(['auth'])->group(function () {
+        Route::post('/profile/update', [ProfileController::class, 'updateProfile'])->name('profile.update');
+        Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::post('/profile/topup', [ProfileController::class, 'topup'])->name('profile.topup');
+        Route::post('/profile/delete', [ProfileController::class, 'destroy'])->name('profile.delete');
+
+        Route::get('/transfers/create', [TransferController::class, 'create'])->name('transfers.create');
+
+
+
+
+    });
+
     Auth::routes();
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
