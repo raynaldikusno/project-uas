@@ -46,6 +46,18 @@ Route::middleware('auth')->group(function () {
             // Route::post('/transfers/store', [TransferController::class, 'store'])->name('transfers.store');
             // Route::get('/transfers/create', 'TransferController@create')->name('transfers.create');
             Route::post('/transfer', [TransferController::class, 'store'])->name('transfer.store');
+            Route::get('/transfers/create', [TransferController::class, 'create'])->name('transfers.create');
+            Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
+            // Route::delete('/transactions/{id}', [TransactionController::class, 'destroy'])->name('transactions.delete');
+            Route::get('/transactions', [TransferController::class, 'showTransactions'])->name('transactions');
+            Route::get('/investment', [InvestmentController::class, 'index'])->name('investment');
+            Route::get('/transfer/history', 'TransferController@getTransferHistory')->name('transfer.history');
+            Route::delete('transactions/delete/{id}', [TransactionController::class, 'delete'])->name('transactions.delete');
+
+
+            // Rute untuk halaman berita
+            Route::get('/news', [NewsController::class, 'index'])->name('news');
+            
 
         });
 

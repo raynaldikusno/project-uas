@@ -16,6 +16,19 @@ class ProfileController extends Controller
     /**
      * Display the user's profile form.
      */
+    public function showProfile(): View
+    {
+        $user = Auth::user();
+        dd($user); // Debugging statement
+        return view('profile', compact('user'));
+    }
+
+    public function showTransactions()
+    {
+        $user = Auth::user();
+        $transactions = $user->transactions; // Assuming a relationship is defined
+        return view('transactions', compact('user', 'transactions'));
+    }
     public function edit(Request $request): View
     {
         return view('profile.edit', ['user' => Auth::user()]);
