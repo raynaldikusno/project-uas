@@ -21,6 +21,19 @@ Route::get('/dashboard', function () {
 
 Route::get('/home', [HomeController::class, 'index'])->name('home')->middleware('auth');
 
+Route::resource('expenses', ExpenseController::class);
+Route::get('/expenses/create', [ExpenseController::class, 'create'])->name('expenses.create');
+Route::patch('/expenses/update', [ExpenseController::class, 'update'])->name('expenses.update');
+Route::delete('/expenses/delete', [ExpenseController::class, 'destroy'])->name('expenses.destroy');
+
+Route::resource('incomes', IncomeController::class);
+Route::get('/incomes/create', [IncomeController::class, 'create'])->name('incomes.create');
+Route::patch('/incomes/update', [IncomeController::class, 'update'])->name('incomes.update');
+Route::delete('/incomes/delete', [IncomeController::class, 'destroy'])->name('incomes.destroy');
+
+Route::resource('balances', BalanceController::class);
+Route::get('balances/monthly-report', [BalanceController::class, 'monthlyReport'])->name('balances.monthlyReport');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
