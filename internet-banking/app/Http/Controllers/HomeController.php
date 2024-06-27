@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\Auth; // Pastikan ini diimpor
+use App\Models\User;
 
 class HomeController extends Controller
 {
@@ -18,7 +19,10 @@ class HomeController extends Controller
 public function welcome()
 {
     $user = Auth::user(); // Mengambil data user yang sedang login
-    return view('welcome', compact('user'));
+
+    $user_data = User::find($user->id);
+
+    return view('welcome', compact('user', 'user_data'));
 }
 
 

@@ -176,6 +176,7 @@
             <div class="form-group">
                 <label for="transferType">Transfer Type</label>
                 <select class="form-control" id="transferType">
+                    <option value="">Select Transfer Type</option>
                     <option value="account">Transfer with Account Number</option>
                     <option value="topUp">Top-up E-Wallet</option>
                     <option value="isiPulsa">Isi Pulsa</option>
@@ -184,7 +185,8 @@
             </div>
             <div class="form-group hidden" id="fromAccountGroup">
                 <label for="fromAccount">From Account</label>
-                <input type="text" class="form-control" id="fromAccount" placeholder="Enter account number">
+                <input type="text" class="form-control" id="fromAccount" placeholder="Enter account number"
+                value="{{ isset($user_data) ? $user_data->account_number : '' }}">
             </div>
             <div class="form-group hidden" id="toAccountGroup">
                 <label for="toAccount">To Account</label>
@@ -219,7 +221,7 @@
                 <input type="text" class="form-control" id="virtualAccount" placeholder="Enter virtual account number">
             </div>
 
-                <button type="button" class="btn btn-outline-success" onclick="showSwal('success-message')">Transfer</button>
+                <button type="button" class="btn btn-outline-success mt-4" onclick="showSwal('success-message')">Transfer</button>
         </form>
 
         <div id="transfer-history" class="mt-4">
@@ -420,7 +422,7 @@
                     icon: 'success'
                 }).then((value) => {
                     // Lakukan pengalihan halaman atau tindakan lain jika diperlukan
-                    window.location.href = '{{ route('transfer.store') }}'; // Ganti dengan URL tujuan
+                    window.location.href = '{{ route('home') }}'; // Ganti dengan URL tujuan
                     // window.location.href = '{{ route('transactions') }}'; // Ganti dengan route untuk menampilkan transaksi
 
                 });

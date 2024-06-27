@@ -31,7 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/account', [AccountController::class, 'show'])->name('account.show');
     Route::put('/account', [AccountController::class, 'update'])->name('account.update');
 
-    Route::get('/transfer', [TransferController::class, 'create'])->name('transfer')->middleware('auth');
+    Route::get('', [TransferController::class, 'create'])->name('transfer')->middleware('auth');
     Route::post('/transfer', [TransferController::class, 'store'])->middleware('auth');
     Route::post('/transfer', [TransferController::class, 'store'])->name('transfer.store');
 
