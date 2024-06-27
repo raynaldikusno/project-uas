@@ -6,6 +6,10 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\TransferController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\DepositoController;
+use App\Models\Deposito;
+
+
 
 Route::get('/home', function () {
     return view('welcome');
@@ -21,6 +25,8 @@ Route::get('/dashboard', function () {
 
 Route::get('/home', [HomeController::class, 'index'])->name('home')->middleware('auth');
 
+
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -34,7 +40,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/transfer', [TransferController::class, 'create'])->name('transfer')->middleware('auth');
     Route::post('/transfer', [TransferController::class, 'store'])->middleware('auth');
     Route::post('/transfer', [TransferController::class, 'store'])->name('transfer.store');
-
+    // Tambahkan route lainnya sesuai kebutuhan
+    
     Route::middleware(['auth'])->group(function () {
         Route::post('/profile/update', [ProfileController::class, 'updateProfile'])->name('profile.update');
         Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -54,14 +61,17 @@ Route::middleware('auth')->group(function () {
             Route::get('/transfer/history', 'TransferController@getTransferHistory')->name('transfer.history');
             Route::delete('transactions/delete/{id}', [TransactionController::class, 'delete'])->name('transactions.delete');
 
-
+           
             // Rute untuk halaman berita
             Route::get('/news', [NewsController::class, 'index'])->name('news');
-            
+          
+            Route::post('/deposits/open', [DepositoController::class, 'openDepositAccount'])->name('openDepositAccount');
+            Route::post('/deposits/transfer-matured', [DepositoController::class, 'transferMaturedDeposits'])->name('transferMaturedDeposits');
+            Route::get('/deposits/info', [DepositoController::class, 'depositInfo'])->name('depositInfo');
 
         });
 
-
+        
     });
 
     Auth::routes();

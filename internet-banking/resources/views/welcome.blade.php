@@ -1,3 +1,6 @@
+@php
+    $depositos = \App\Models\Deposito::all();
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -58,6 +61,10 @@
             <li class="nav-item">
                 <a class="nav-link" href="#" data-target="transfer">Transfer</a>
             </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-target="deposito">Deposito</a>
+            </li>
            
             <li class="nav-item">
                 <a class="nav-link" href="#" data-target="news">News</a>
@@ -66,6 +73,7 @@
         </ul>
     </div>
 </nav>
+
 <div class="container">
     <div id="home" class="content active">
         <h3>Welcome to TurtleBank</h3>
@@ -236,8 +244,68 @@
     </div>
 </div>
 
+<!-- Container for all contents -->
+<div class="container">
+    
 
-        
+    <!-- Deposito content -->
+    <div id="deposito" class="content">
+    <h3>Deposito</h3>
+    <!-- Form untuk membuka deposito -->
+    <div class="mb-4">
+        <h4>Open a New Deposito</h4>
+        <form method="POST" action="{{ route('openDepositAccount') }}">
+            @csrf
+            <div class="form-group">
+                <label for="amount">Amount:</label>
+                <input type="number" id="amount" name="amount" step="0.01" required class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="duration">Duration:</label>
+                <select name="duration" id="duration" required class="form-control">
+                    <option value="2">2</option>
+                    <option value="4">4</option>
+                    <option value="24">24</option>
+                    <option value="168">168</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Open Deposito</button>
+        </form>
+    </div>
+
+    <!-- Daftar deposito yang sudah ada -->
+    <div>
+        <h4>Existing Depositos</h4>
+        @if($depositos->count() > 0)
+            @foreach($depositos as $deposito)
+                <div class="deposito-item">
+                    <h5>Deposito ID: {{ $deposito->id }}</h5>
+                    <p>Amount: ${{ number_format($deposito->amount, 2) }}</p>
+                    <p>Interest Rate: {{ $deposito->interest_rate }}% per hour</p>
+                    <p>Duration: {{ $deposito->duration }} hours</p>
+                    <p>Expires At: {{ date('Y-m-d H:i:s', strtotime($deposito->end_time)) }}</p>
+                    @php
+                    $currentTime = new DateTime(); // Waktu saat ini
+                    $endTime = $deposito->end_time; // Waktu berakhir dari model
+                @endphp
+
+<p>Status: {{ $endTime < $currentTime ? 'Expired' : 'Active' }}</p>                    <p>User Account Number: {{ $deposito->user->account_number }}</p>
+                    <hr>
+                </div>
+            @endforeach
+        @else
+            <p>No depositos found.</p>
+        @endif
+    </div>
+</div>
+
+
+    <!-- News content -->
+    <div id="news" class="content">
+        <!-- Your news content here -->
+    </div>
+</div>
+
       
 <div id="news" class="content">
     <h2>Latest News</h2>
@@ -438,5 +506,28 @@
 }
 
 </script>
+<!-- JavaScript untuk mengelola konten -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const links = document.querySelectorAll('.nav-link');
+        const contents = document.querySelectorAll('.content');
+
+        links.forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = this.getAttribute('data-target');
+
+                contents.forEach(content => {
+                    if (content.id === target) {
+                        content.classList.add('active');
+                    } else {
+                        content.classList.remove('active');
+                    }
+                });
+            });
+        });
+    });
+</script>
+
 </body>
 </html>
