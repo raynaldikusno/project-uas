@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
+    
     use HasFactory, Notifiable;
 
     /**
@@ -53,7 +54,12 @@ class User extends Authenticatable
         static::creating(function ($user) {
             // Generate a unique account number starting from 5352300000
             $initialAccountNumber = 5352300000;
-            $maxAccountNumber = User::max('account_number');
+
+            try{
+                $maxAccountNumber = User::max('account_number');
+            }catch(Exception $e){
+                
+            }
 
             if ($maxAccountNumber) {
                 $user->account_number = $maxAccountNumber + 1;
