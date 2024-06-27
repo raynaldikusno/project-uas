@@ -10,6 +10,45 @@ use Carbon\Carbon;
 
 class TransferController extends Controller
 {
+    public function delete($id)
+{
+    $transfer = Transfer::findOrFail($id);
+    $transfer->delete();
+
+    return response()->json(['message' => 'Transaksi berhasil dihapus.']);
+}
+    public function deleteTransaction($id)
+{
+    $transaction = Transaction::findOrFail($id);
+    $transaction->delete();
+
+    return response()->json(['message' => 'Transaksi berhasil dihapus.']);
+}
+    public function getTransferHistory()
+    {
+        // Ambil data riwayat transfer dari database
+        $transfers = Transfer::orderBy('created_at', 'desc')->get(); // Contoh mengambil semua data transfer, diurutkan dari yang terbaru
+
+        // Return data dalam format JSON
+        return response()->json($transfers);
+    }
+//     public function showTransactions()
+// {
+//     $transfers = Transaction::all(); // Ambil semua data transaksi dari model Transaction
+
+//     return view('transactions.index', [
+//         'transfers' => $transfers
+//     ]);
+// }
+    public function showTransactions()
+    {
+        $transfers = Transfer::all();
+        
+        // dd($transfers); // Tambahkan ini untuk memeriksa data transfers
+    
+        return view('transactions', ['transfers' => $transfers]);
+    }
+    
     public function create()
     {
         return view('transfers.create');
@@ -27,19 +66,26 @@ class TransferController extends Controller
         // Retrieve the authenticated user
         $user = auth()->user();
 
+
+        // if ($validatedData['fromAccount'] !== $user->account_number) {
+        //     return redirect()->back()->with('error', 'Anda tidak diizinkan menggunakan nomor rekening ini untuk transfer.');
+        // }
         // Find the recipient user based on account number
         $recipient = User::where('account_number', $request->input('toAccount'))->first();
-
         if (!$recipient) {
-            return redirect()->back()->with('error', 'Penerima dengan nomor rekening tersebut tidak ditemukan.');
+        return response()->json(['error' => 'Penerima dengan nomor rekening tersebut tidak ditemukan.'], 404);
         }
+        // Check if the recipient account number is different from the sender's account number
+    // if ($validatedData['toAccount'] === $user->account_number) {
+    //     return redirect()->back()->with('error', 'Anda tidak dapat mentransfer ke akun Anda sendiri.');
+    // }
 
         // Check if the user has sufficient balance
         $amount = $request->input('amount');
         if ($user->balance < $amount) {
-            return redirect()->back()->with('error', 'Saldo tidak mencukupi untuk melakukan transfer.');
+        return response()->json(['error' => 'Saldo tidak mencukupi untuk melakukan transfer.'], 403);
         }
-
+        
         // Start a database transaction to ensure data consistency
         \DB::beginTransaction();
 
@@ -58,13 +104,6 @@ class TransferController extends Controller
             $transfer->to_account = $request->input('toAccount');
             $transfer->amount = $amount;
             $transfer->save();
-
-            $tracker = new Tracker();
-            $tracker->user_id = $user->id;
-            $tracker->transaction_type = 'transfer';
-            $tracker->total_amount = $amount;
-            $tracker->transaction_date = Carbon::now();
-            $tracker->save();
 
             \DB::commit(); // Commit the transaction
 

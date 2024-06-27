@@ -4,11 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TurtleBank</title>
+    <link rel="stylesheet" href="style.css">
+
     <!-- Include Bootstrap CSS for styling (optional) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <!-- Include SweetAlert CSS -->
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert/dist/sweetalert.css">
-
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+      <!-- Custom CSS -->
     <style>
         body {
             background-color: var(--bs-body-bg);
@@ -55,6 +58,11 @@
             <li class="nav-item">
                 <a class="nav-link" href="#" data-target="transfer">Transfer</a>
             </li>
+           
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-target="news">News</a>
+            </li>
+                
         </ul>
     </div>
 </nav>
@@ -114,7 +122,12 @@
     </div>
 
 
+   
+
+    
+   
     <div id="transactions" class="content">
+    <div class="container mt-4">
         <h3>Transactions</h3>
         <div class="table-responsive">
             <table class="table table-hover mb-0">
@@ -127,6 +140,7 @@
                     <th>Amount</th>
                         <th>Transaction</th>
                         <th>Tambah Uang</th> <!-- Kolom baru untuk opsi "Tambah Uang" -->
+
                 </tr>
             </thead>
             <tbody>
@@ -180,7 +194,9 @@
         <!--end table-responsive-->
         <div class="pt-3 border-top text-right"><a href="#" class="text-dark">View all <i class="mdi mdi-arrow-right"></i></a></div>
     </div>
+</div>
 
+        
     <div id="transfer" class="content">
     <h3>Transfer Funds</h3>
     <form method="POST" action="{{ route('transfer.store') }}">
@@ -235,12 +251,6 @@
                 <button type="button" class="btn btn-outline-success" onclick="showSwal('success-message')">Transfer</button>
         </form>
 </div>
-<!-- Chart Section -->
-        <div class="mt-5">
-            <h4>Monthly Transactions Report</h4>
-            <canvas id="monthlyChart" width="400" height="200"></canvas>
-        </div>
-    </div>
 
     <div id="transfer" class="content">
         <h3>Transfer Funds</h3>
@@ -338,6 +348,8 @@
 </script>
 
 <script>
+ 
+   
     document.addEventListener('DOMContentLoaded', function () {
         const links = document.querySelectorAll('.nav-link');
         const contents = document.querySelectorAll('.content');
@@ -439,12 +451,20 @@
             swal('Error', 'Silakan lengkapi semua kolom yang diperlukan.', 'error');
             return;
         }
+        
 
         // Kirim data ke server menggunakan Axios jika valid
         axios.post('{{ route('transfer.store') }}', formData)
             .then(function(response) {
                 // Tanggapan dari server (opsional)
                 console.log(response.data);
+
+                const currentDate = new Date();
+                const createdAt = currentDate.toLocaleString();
+                const transferHistoryList = document.getElementById('transfer-history-list');
+        const newTransferItem = document.createElement('li');
+        newTransferItem.textContent = `Transfer ${formData.amount} to ${formData.toAccount} pada ${createdAt}`;
+        transferHistoryList.appendChild(newTransferItem);
                 // Tampilkan notifikasi sukses kepada pengguna
                 swal({
                     title: 'Sukses',
@@ -453,6 +473,8 @@
                 }).then((value) => {
                     // Lakukan pengalihan halaman atau tindakan lain jika diperlukan
                     window.location.href = '{{ route('transfer.store') }}'; // Ganti dengan URL tujuan
+                    // window.location.href = '{{ route('transactions') }}'; // Ganti dengan route untuk menampilkan transaksi
+
                 });
             })
             .catch(function(error) {
@@ -464,7 +486,9 @@
         swal('Terjadi kesalahan!');
     }
    
+   
 }
+
 </script>
 </body>
 </html>
