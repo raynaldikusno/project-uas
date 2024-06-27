@@ -206,10 +206,13 @@
     
                 <label for="ewalletAccount">E-Wallet Account</label>
                 <input type="text" class="form-control" id="ewalletAccount"  placeholder="Enter e-wallet account number">
+                <label for="fromAccount">From Account</label>
+                <input type="text" class="form-control" id="fromAccount" placeholder="Enter account number">
                 <label for="topUpAmount">Top-up Amount</label>
                 <input type="number" class="form-control" id="topUpAmount" placeholder="Enter top-up amount">
             </div>
             <div class="form-group hidden" id="isiPulsaGroup">
+<<<<<<< Updated upstream
             <label for="ewalletProvider">E-Wallet Provider</label>
                 <select class="form-control" id="ewalletProvider">
                     <option value="Telkomsel">Telkomsel</option>
@@ -218,7 +221,26 @@
                     <option value="Smartfren">Smartfren</option>
                     <option value="XL/Axis">XLAxis</option>
                 </select>
+=======
+                <label for="pulsaProvider">Pulsa Provider</label>
+                <select class="form-control" id="pulsaProvider">
+                    <option value="XL">XL</option>
+                    <option value="Telkomsel">Telkomsel</option>
+                    <option value="Indosat">Indosat</option>
+                    <option value="Tri">Tri</option>
+                    <option value="Axis">Axis</option>
+                    </select>
+                <label for="nomorTelepon">Nomor Telepon</label>
+                <input type="text" class="form-control" id="nomorTelepon" placeholder="Enter Nomor Telepon">
+                <label for="fromAccount">From Account</label>
+                <input type="text" class="form-control" id="fromAccount" placeholder="Enter account number">
+                <label for="totalPulsa">Total Pulsa</label>
+                <input type="number" class="form-control" id="totalPulsa" placeholder="Enter total pulsa">
+            </div>
+>>>>>>> Stashed changes
             <div class="form-group hidden" id="virtualAccountGroup">
+                 <label for="fromAccount">From Account</label>
+                <input type="text" class="form-control" id="fromAccount" placeholder="Enter account number">
                 <label for="virtualAccount">Virtual Account Number</label>
                 <input type="text" class="form-control" id="virtualAccount" placeholder="Enter virtual account number">
             </div>
@@ -344,7 +366,6 @@
             } else if(this.value === 'topUp'){
                 topUpGroup.classList.remove('hidden');
             } else {
-                fromAccountGroup.classList.remove('hidden');
                 toAccountGroup.classList.remove('hidden');
                 amountGroup.classList.remove('hidden');
             }
