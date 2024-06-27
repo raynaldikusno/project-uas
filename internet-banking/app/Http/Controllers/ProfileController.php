@@ -42,11 +42,13 @@ class ProfileController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
+            'phone' => 'required|string|max:15',
             'profile_image' => 'required|string'
         ]);
 
         $user = $request->user();
         $user->fill($validated);
+        $user->phone = $request->phone;
 
         if ($request->user()->isDirty('email')) {
             $user->email_verified_at = null;

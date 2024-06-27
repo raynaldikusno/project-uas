@@ -117,6 +117,7 @@
         @endif
         <p>Name: {{ $user->name }}</p>
         <p>Email: {{ $user->email }}</p>
+        <p>Phone Number: {{ $user->phone }}</p>
         <p>Account Number: {{ $user->account_number }}</p>
         <p>Balance: ${{ number_format($user->balance, 2) }}</p>
     </div>

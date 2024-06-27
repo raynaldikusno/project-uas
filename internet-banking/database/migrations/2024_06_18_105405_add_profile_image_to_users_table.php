@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->string('profile_image')->nullable();
             $table->string('account_number')->unique()->after('email');
+            $table->string('phone')->nullable();
             //
         });
     }
@@ -26,6 +27,7 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('profile_image');
             $table->dropColumn('account_number');
+            $table->dropColumn('phone');
             //
         });
     }
