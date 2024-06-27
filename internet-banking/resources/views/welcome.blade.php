@@ -172,7 +172,6 @@
     <h3>Transfer Funds</h3>
     <form method="POST" action="{{ route('transfer.store') }}">
         @csrf
-       
             <div class="form-group">
                 <label for="transferType">Transfer Type</label>
                 <select class="form-control" id="transferType">
@@ -203,17 +202,22 @@
                     <option value="ShoopePay">ShoopePay</option>
                     <option value="LinkAja">LinkAja</option>
                 </select>
+                </div>
+    
                 <label for="ewalletAccount">E-Wallet Account</label>
                 <input type="text" class="form-control" id="ewalletAccount"  placeholder="Enter e-wallet account number">
                 <label for="topUpAmount">Top-up Amount</label>
                 <input type="number" class="form-control" id="topUpAmount" placeholder="Enter top-up amount">
             </div>
             <div class="form-group hidden" id="isiPulsaGroup">
-                <label for="nomorTelepon">Nomor Telepon</label>
-                <input type="text" class="form-control" id="nomorTelepon" placeholder="Enter Nomor Telepon">
-                <label for="totalPulsa">Total Pulsa</label>
-                <input type="number" class="form-control" id="totalPulsa" placeholder="Enter total pulsa">
-            </div>
+            <label for="ewalletProvider">E-Wallet Provider</label>
+                <select class="form-control" id="ewalletProvider">
+                    <option value="Telkomsel">Telkomsel</option>
+                    <option value="3Prabayar">3Prabayar</option>
+                    <option value="Indosat">Indosat</option>
+                    <option value="Smartfren">Smartfren</option>
+                    <option value="XL/Axis">XLAxis</option>
+                </select>
             <div class="form-group hidden" id="virtualAccountGroup">
                 <label for="virtualAccount">Virtual Account Number</label>
                 <input type="text" class="form-control" id="virtualAccount" placeholder="Enter virtual account number">
@@ -411,7 +415,7 @@
                 const createdAt = currentDate.toLocaleString();
                 const transferHistoryList = document.getElementById('transfer-history-list');
         const newTransferItem = document.createElement('li');
-        newTransferItem.textContent = `Transfer ${formData.amount} to ${formData.toAccount} pada ${createdAt}`;
+        newTransferItem.textContent = Transfer ${formData.amount} to ${formData.toAccount} pada ${createdAt};
         transferHistoryList.appendChild(newTransferItem);
                 // Tampilkan notifikasi sukses kepada pengguna
                 swal({
