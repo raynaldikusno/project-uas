@@ -14,11 +14,14 @@ class CreateTransfersTable extends Migration
             $table->string('to_account');
             $table->decimal('amount', 15, 2);
             $table->timestamps();
+            $table->string('transaction_type')->default('transfer'); // e.g., 'transfer', 'deposit', 'withdrawal'
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('transfers');
+        Schema::table('transfers', function (Blueprint $table) {
+            $table->dropColumn('transaction_type');
+        });
     }
 }

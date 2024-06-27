@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User; // Import User model
 use App\Models\Transfer; // Import Transfer model
+use App\Models\Tracker;
+use Carbon\Carbon;
 
 class TransferController extends Controller
 {
@@ -57,6 +59,13 @@ class TransferController extends Controller
             $transfer->amount = $amount;
             $transfer->save();
 
+            $tracker = new Tracker();
+            $tracker->user_id = $user->id;
+            $tracker->transaction_type = 'transfer';
+            $tracker->total_amount = $amount;
+            $tracker->transaction_date = Carbon::now();
+            $tracker->save();
+
             \DB::commit(); // Commit the transaction
 
             return redirect()->back()->with('success', 'Transfer berhasil disimpan.');
@@ -65,5 +74,14 @@ class TransferController extends Controller
 
             return redirect()->back()->with('error', 'Gagal melakukan transfer. Silakan coba lagi.');
         }
+    }
+    public function monthlyReport()
+    {
+        $trackers = Tracker::selectRaw('MONTH(transaction_date) as month, SUM(total_amount) as total_amount, transaction_type')
+            ->groupBy('month', 'transaction_type')
+            ->get()
+            ->groupBy('transaction_type');
+
+        return response()->json($trackers);
     }
 }

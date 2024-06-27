@@ -110,14 +110,10 @@
         <p>Name: {{ $user->name }}</p>
         <p>Email: {{ $user->email }}</p>
         <p>Account Number: {{ $user->account_number }}</p>
-        <p>Balance: ${{ number_format($user->balance, 2) }}</p>
+        <p>Balance: RP{{ number_format($user->balance, 2) }}</p>
     </div>
 
 
-   
-
-    
-   
     <div id="transactions" class="content">
         <h3>Transactions</h3>
         <div class="table-responsive">
@@ -131,7 +127,6 @@
                     <th>Amount</th>
                         <th>Transaction</th>
                         <th>Tambah Uang</th> <!-- Kolom baru untuk opsi "Tambah Uang" -->
-
                 </tr>
             </thead>
             <tbody>
@@ -240,12 +235,107 @@
                 <button type="button" class="btn btn-outline-success" onclick="showSwal('success-message')">Transfer</button>
         </form>
 </div>
+<!-- Chart Section -->
+        <div class="mt-5">
+            <h4>Monthly Transactions Report</h4>
+            <canvas id="monthlyChart" width="400" height="200"></canvas>
+        </div>
+    </div>
 
+    <div id="transfer" class="content">
+        <h3>Transfer Funds</h3>
+        <form method="POST" action="{{ route('transfer.store') }}">
+            @csrf
+            <div class="form-group">
+                <label for="recipient_account_number">Recipient Account Number</label>
+                <input type="text" name="recipient_account_number" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="amount">Amount</label>
+                <input type="number" name="amount" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Transfer</button>
+        </form>
+    </div>
+</div>
 <!-- Include jQuery, Bootstrap JS, and SweetAlert JS -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert/dist/sweetalert.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        // Show and hide content based on navigation
+        $('a.nav-link').click(function(e) {
+            e.preventDefault();
+            var target = $(this).data('target');
+            $('.content').removeClass('active');
+            $('#' + target).addClass('active');
+        });
+        
+        // Fetch data and render chart after document is ready
+        fetch('/transfers/monthly-report')
+            .then(response => response.json())
+            .then(data => {
+                const labels = [];
+                const transferData = [];
+                const depositData = [];
+                const withdrawalData = [];
+
+                data.transfer.forEach(item => {
+                    labels.push('Month ' + item.month);
+                    transferData.push(item.total_amount);
+                });
+
+                data.deposit?.forEach(item => {
+                    depositData.push(item.total_amount);
+                });
+
+                data.withdrawal?.forEach(item => {
+                    withdrawalData.push(item.total_amount);
+                });
+
+                const ctx = document.getElementById('monthlyChart').getContext('2d');
+                const chart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: 'Transfer',
+                                data: transferData,
+                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                borderWidth: 1
+                            },
+                            {
+                                label: 'Deposit',
+                                data: depositData,
+                                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                borderColor: 'rgba(54, 162, 235, 1)',
+                                borderWidth: 1
+                            },
+                            {
+                                label: 'Withdrawal',
+                                data: withdrawalData,
+                                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                                borderColor: 'rgba(255, 99, 132, 1)',
+                                borderWidth: 1
+                            }
+                        ]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            });
+    });
+</script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {

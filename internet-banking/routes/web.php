@@ -34,6 +34,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/transfer', [TransferController::class, 'create'])->name('transfer')->middleware('auth');
     Route::post('/transfer', [TransferController::class, 'store'])->middleware('auth');
     Route::post('/transfer', [TransferController::class, 'store'])->name('transfer.store');
+    Route::get('/transfers/monthly-report', [TransferController::class, 'monthlyReport'])->name('transfers.monthlyReport');
 
     Route::middleware(['auth'])->group(function () {
         Route::post('/profile/update', [ProfileController::class, 'updateProfile'])->name('profile.update');
