@@ -6,6 +6,7 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\TransferController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\LoanController;
 
 Route::get('/home', function () {
     return view('welcome');
@@ -58,7 +59,9 @@ Route::middleware('auth')->group(function () {
             // Rute untuk halaman berita
             Route::get('/news', [NewsController::class, 'index'])->name('news');
             
-
+            Route::get('/loan', [LoanController::class, 'index'])->name('loan.form');
+            Route::post('/loan/calculate', [LoanController::class, 'calculate'])->name('loan.calculate');
+            Route::get('/loan/result', [LoanController::class, 'showResult'])->name('loan.result');
         });
 
 

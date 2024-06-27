@@ -62,6 +62,8 @@
             <li class="nav-item">
                 <a class="nav-link" href="#" data-target="news">News</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('loan.form')}}">Loan</a>
                 
         </ul>
     </div>
@@ -302,7 +304,10 @@
 </div> 
     </div>
 </div>
-</div>
+
+
+
+
 
 <!-- Include jQuery, Bootstrap JS, and SweetAlert JS -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
