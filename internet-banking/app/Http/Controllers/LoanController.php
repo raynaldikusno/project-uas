@@ -23,7 +23,7 @@ class LoanController extends Controller
         ]);
 
         $loanAmount = $request->input('loan_amount');
-        $loanDuration = $request->input('loan_period');
+        $loanPeriod = $request->input('loan_period');
         $interestRate = 0.05;
         $totalPayable = $loanAmount + ($loanAmount * $interestRate * ($loanPeriod / 12));
 

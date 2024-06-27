@@ -167,94 +167,83 @@
         @endif
         
     </div>
-</div>
-
-        
     <div id="transfer" class="content">
     <h3>Transfer Funds</h3>
     <form method="POST" action="{{ route('transfer.store') }}">
         @csrf
-            <div class="form-group">
-                <label for="transferType">Transfer Type</label>
-                <select class="form-control" id="transferType">
-                    <option value="account">Transfer with Account Number</option>
-                    <option value="topUp">Top-up E-Wallet</option>
-                    <option value="isiPulsa">Isi Pulsa</option>
-                    <option value="virtualAccount">Virtual Account</option>
-                </select>
-            </div>
-            <div class="form-group hidden" id="fromAccountGroup">
-                <label for="fromAccount">From Account</label>
-                <input type="text" class="form-control" id="fromAccount" placeholder="Enter account number">
-            </div>
-            <div class="form-group hidden" id="toAccountGroup">
-                <label for="toAccount">To Account</label>
-                <input type="text" class="form-control" id="toAccount" placeholder="Enter account number">
-            </div>
-            <div class="form-group hidden" id="amountGroup">
-                <label for="amount">Amount</label>
-                <input type="number" class="form-control" id="amount" placeholder="Enter amount">
-            </div>
-            <div class="form-group hidden" id="topUpGroup">
-                <label for="ewalletProvider">E-Wallet Provider</label>
-                <select class="form-control" id="ewalletProvider">
-                    <option value="gopay">Gopay</option>
-                    <option value="dana">Dana</option>
-                    <option value="Ovo">Ovo</option>
-                    <option value="ShoopePay">ShoopePay</option>
-                    <option value="LinkAja">LinkAja</option>
-                </select>
-                </div>
-    
-                <label for="ewalletAccount">E-Wallet Account</label>
-                <input type="text" class="form-control" id="ewalletAccount"  placeholder="Enter e-wallet account number">
-                <label for="fromAccount">From Account</label>
-                <input type="text" class="form-control" id="fromAccount" placeholder="Enter account number">
-                <label for="topUpAmount">Top-up Amount</label>
-                <input type="number" class="form-control" id="topUpAmount" placeholder="Enter top-up amount">
-            </div>
-            <div class="form-group hidden" id="isiPulsaGroup">
-                <label for="pulsaProvider">Pulsa Provider</label>
-                <select class="form-control" id="pulsaProvider">
-                    <option value="XL">XL</option>
-                    <option value="Telkomsel">Telkomsel</option>
-                    <option value="Indosat">Indosat</option>
-                    <option value="Tri">Tri</option>
-                    <option value="Axis">Axis</option>
-                    </select>
-                <label for="nomorTelepon">Nomor Telepon</label>
-                <input type="text" class="form-control" id="nomorTelepon" placeholder="Enter Nomor Telepon">
-                <label for="fromAccount">From Account</label>
-                <input type="text" class="form-control" id="fromAccount" placeholder="Enter account number">
-                <label for="totalPulsa">Total Pulsa</label>
-                <input type="number" class="form-control" id="totalPulsa" placeholder="Enter total pulsa">
-            </div>
-            <div class="form-group hidden" id="virtualAccountGroup">
-                 <label for="fromAccount">From Account</label>
-                <input type="text" class="form-control" id="fromAccount" placeholder="Enter account number">
-                <label for="virtualAccount">Virtual Account Number</label>
-                <input type="text" class="form-control" id="virtualAccount" placeholder="Enter virtual account number">
-            </div>
+        <div class="form-group">
+            <label for="transferType">Transfer Type</label>
+            <select class="form-control" id="transferType">
+                <option value="account">Transfer with Account Number</option>
+                <option value="topUp">Top-up E-Wallet</option>
+                <option value="isiPulsa">Isi Pulsa</option>
+                <option value="virtualAccount">Virtual Account</option>
+            </select>
+        </div>
+        <div class="form-group hidden" id="fromAccountGroup">
+            <label for="fromAccount">From Account</label>
+            <input type="text" class="form-control" id="fromAccount" name="fromAccount" placeholder="Enter account number">
+        </div>
+        <div class="form-group hidden" id="toAccountGroup">
+            <label for="toAccount">To Account</label>
+            <input type="text" class="form-control" id="toAccount" name="toAccount" placeholder="Enter account number">
+        </div>
+        <div class="form-group hidden" id="amountGroup">
+            <label for="amount">Amount</label>
+            <input type="number" class="form-control" id="amount" name="amount" placeholder="Enter amount">
+        </div>
+        <div class="form-group hidden" id="topUpGroup">
+            <label for="ewalletProvider">E-Wallet Provider</label>
+            <select class="form-control" id="ewalletProvider" name="ewalletProvider">
+                <option value="gopay">Gopay</option>
+                <option value="dana">Dana</option>
+                <option value="Ovo">Ovo</option>
+                <option value="ShoopePay">ShoopePay</option>
+                <option value="LinkAja">LinkAja</option>
+            </select>
+            <label for="ewalletAccount">E-Wallet Account</label>
+            <input type="text" class="form-control" id="ewalletAccount" name="ewalletAccount" placeholder="Enter e-wallet account number">
+            <label for="topUpAmount">Top-up Amount</label>
+            <input type="number" class="form-control" id="topUpAmount" name="topUpAmount" placeholder="Enter top-up amount">
+        </div>
+        <div class="form-group hidden" id="isiPulsaGroup">
+            <label for="pulsaProvider">Pulsa Provider</label>
+            <select class="form-control" id="pulsaProvider" name="pulsaProvider">
+                <option value="XL">XL</option>
+                <option value="Telkomsel">Telkomsel</option>
+                <option value="Indosat">Indosat</option>
+                <option value="Tri">Tri</option>
+                <option value="Axis">Axis</option>
+            </select>
+            <label for="nomorTelepon">Nomor Telepon</label>
+            <input type="text" class="form-control" id="nomorTelepon" name="nomorTelepon" placeholder="Enter Nomor Telepon">
+            <label for="fromAccount">From Account</label>
+            <input type="text" class="form-control" id="fromAccountPulsa" name="fromAccount" placeholder="Enter account number">
+            <label for="totalPulsa">Total Pulsa</label>
+            <input type="number" class="form-control" id="totalPulsa" name="totalPulsa" placeholder="Enter total pulsa">
+        </div>
+        <div class="form-group hidden" id="virtualAccountGroup">
+            <label for="fromAccount">From Account</label>
+            <input type="text" class="form-control" id="fromAccountVA" name="fromAccount" placeholder="Enter account number">
+            <label for="virtualAccount">Virtual Account Number</label>
+            <input type="text" class="form-control" id="virtualAccount" name="virtualAccount" placeholder="Enter virtual account number">
+        </div>
+        <button type="submit" class="btn btn-outline-success">Transfer</button>
+    </form>
 
-                <button type="button" class="btn btn-outline-success" onclick="showSwal('success-message')">Transfer</button>
-        </form>
-
-        <div id="transfer-history" class="mt-4">
-            <h3>Transfer History</h3>
-            <ul id="transfer-history-list">
-        <!-- Transfer history items will be dynamically populated here -->
-        <!-- <li data-transfer-id="1"> -->
+    <div id="transfer-history" class="mt-4">
+        <h3>Transfer History</h3>
+        <ul id="transfer-history-list">
+            <!-- Transfer history items will be dynamically populated here -->
+            <!-- <li data-transfer-id="1"> -->
             <!-- <button class="btn btn-sm btn-danger float-end" onclick="deleteTransaction(1)">
                 <i class="mdi mdi-delete"></i> Delete
             </button> -->
-             </li>
-             </ul>
-        </div>
+            </li>
+        </ul>
     </div>
 </div>
-
-
-        
+       
       
 <div id="news" class="content">
     <h2>Latest News</h2>
@@ -300,8 +289,8 @@
         < <div id="news-results">
             <!-- Search results will be displayed here -->
         <!-- </div> 
-    </div> -->
-</div> 
+        </div> -->
+        </div> 
     </div>
 </div>
 
