@@ -212,16 +212,6 @@
                 <input type="number" class="form-control" id="topUpAmount" placeholder="Enter top-up amount">
             </div>
             <div class="form-group hidden" id="isiPulsaGroup">
-<<<<<<< Updated upstream
-            <label for="ewalletProvider">E-Wallet Provider</label>
-                <select class="form-control" id="ewalletProvider">
-                    <option value="Telkomsel">Telkomsel</option>
-                    <option value="3Prabayar">3Prabayar</option>
-                    <option value="Indosat">Indosat</option>
-                    <option value="Smartfren">Smartfren</option>
-                    <option value="XL/Axis">XLAxis</option>
-                </select>
-=======
                 <label for="pulsaProvider">Pulsa Provider</label>
                 <select class="form-control" id="pulsaProvider">
                     <option value="XL">XL</option>
@@ -237,7 +227,6 @@
                 <label for="totalPulsa">Total Pulsa</label>
                 <input type="number" class="form-control" id="totalPulsa" placeholder="Enter total pulsa">
             </div>
->>>>>>> Stashed changes
             <div class="form-group hidden" id="virtualAccountGroup">
                  <label for="fromAccount">From Account</label>
                 <input type="text" class="form-control" id="fromAccount" placeholder="Enter account number">
@@ -249,16 +238,16 @@
         </form>
 
         <div id="transfer-history" class="mt-4">
-    <h3>Transfer History</h3>
-    <ul id="transfer-history-list">
+            <h3>Transfer History</h3>
+            <ul id="transfer-history-list">
         <!-- Transfer history items will be dynamically populated here -->
         <!-- <li data-transfer-id="1"> -->
             <!-- <button class="btn btn-sm btn-danger float-end" onclick="deleteTransaction(1)">
                 <i class="mdi mdi-delete"></i> Delete
             </button> -->
-        </li>
-    </ul>
-</div>
+             </li>
+             </ul>
+        </div>
     </div>
 </div>
 
