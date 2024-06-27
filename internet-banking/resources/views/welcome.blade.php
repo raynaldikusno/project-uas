@@ -4,11 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TurtleBank</title>
+    <link rel="stylesheet" href="style.css">
+
     <!-- Include Bootstrap CSS for styling (optional) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <!-- Include SweetAlert CSS -->
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert/dist/sweetalert.css">
-
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+      <!-- Custom CSS -->
     <style>
         body {
             background-color: var(--bs-body-bg);
@@ -55,6 +58,11 @@
             <li class="nav-item">
                 <a class="nav-link" href="#" data-target="transfer">Transfer</a>
             </li>
+           
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-target="news">News</a>
+            </li>
+                
         </ul>
     </div>
 </nav>
@@ -78,9 +86,27 @@
     </style>
     <div id="accounts" class="content">
         <h3>Account Summary</h3>
-        <form method="POST" action="{{ route('profile.update') }}">
+        @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
+        <form method="POST" action="{{ route('profile.topup') }}">
+        @csrf
+        <label for="topup_amount">Top-up Amount:</label>
+        <input type="number" id="topup_amount" name="amount" step="0.01" required>
+        <button type="submit" class="btn btn-sm btn-success">
+            <i class="mdi mdi-plus"></i> Tambah Uang
+        </button>
         </form>
         
+        <form method="POST" action="{{ route('profile.update') }}">
+        @csrf
+        <input type="hidden" name="action" value="withdraw">
+        <label for="withdraw_amount">Withdraw Amount:</label>
+        <input type="number" id="withdraw_amount" name="amount" step="0.01" required>
+        <button type="submit" class="btn btn-sm btn-danger">
+            <i class="mdi mdi-minus"></i> Tarik Uang
+        </button>
+    </form>
         <!-- Menampilkan gambar profil yang dipilih -->
         <div class="mt-4">
         </div>
@@ -91,83 +117,57 @@
         @endif
         <p>Name: {{ $user->name }}</p>
         <p>Email: {{ $user->email }}</p>
+        <p>Phone Number: {{ $user->phone }}</p>
         <p>Account Number: {{ $user->account_number }}</p>
         <p>Balance: ${{ number_format($user->balance, 2) }}</p>
     </div>
 
-
    
 
-    
-   
     <div id="transactions" class="content">
+    <div class="container mt-4">
         <h3>Transactions</h3>
-        <div class="table-responsive">
-            <table class="table table-hover mb-0">
-            <thead>
-                <tr>
-                        <th>Project Name</th>
-                        <th>Client Name</th>
-                        <th>Payment Type</th>
-                        <th>Paid Date</th>
-                    <th>Amount</th>
-                        <th>Transaction</th>
-                        <th>Tambah Uang</th> <!-- Kolom baru untuk opsi "Tambah Uang" -->
+        <form action="{{ route('transactions') }}" method="POST">
+    @csrf
 
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                        <td>Product Development</td>
-                        <td><img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="" class="thumb-sm rounded-circle mr-2" style="width: 30px; height: auto;"> Kevin Heal</td>
-                        <td>Gopay</td>
-                        <td>5/8/2018</td>
-                        <td>$15,000</td>
-                        <td><span class="badge badge-boxed badge-soft-warning text-dark" >Pending</span></td>
-                        <td><button class="btn btn-sm btn-success"><i class="mdi mdi-plus"></i> Tambah Uang</button></td>
-
-                </tr>
-                <tr>
-                        <td>New Office Building</td>
-                        <td><img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="" class="thumb-sm rounded-circle mr-2" style="width: 30px; height: auto;"> Frank M. Lyons</td>
-                        <td>Gopay</td>
-                        <td>15/7/2018</td>
-                        <td>$35,000</td>
-                        <td><span class="badge badge-boxed badge-soft-warning text-dark" >Success</span></td>
-                        <td><button class="btn btn-sm btn-success"><i class="mdi mdi-plus"></i> Tambah Uang</button></td>
-
+        @if (!empty($transfers) && $transfers->count() > 0)
+            <table class="table table-sm table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>From Account</th>
+                        <th>To Account</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <th>Action</th>
                     </tr>
-                  
-                    <tr>
-                        <td>Market Research</td>
-                        <td><img src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="" class="thumb-sm rounded-circle mr-2" style="width: 30px; height: auto;"> Angelo Butler</td>
-                        <td>Gopay</td>
-                        <td>30/9/2018</td>
-                        <td>$45,000</td>
-                        <td><span class="badge badge-boxed badge-soft-warning text-dark">Panding</span></td>
-                        <td><button class="btn btn-sm btn-success"><i class="mdi mdi-plus"></i> Tambah Uang</button></td>
-
-                    </tr>
-                    <tr>
-                        <td>Website &amp; Blog</td>
-                        <td><img src="https://bootdey.com/img/Content/avatar/avatar4.png" alt="" class="thumb-sm rounded-circle mr-2" style="width: 30px; height: auto;"> Phillip Morse</td>
-                        <td>Gopay</td>
-                        <td>2/6/2018</td>
-                        <td>$70,000</td>
-                        <td><span class="badge badge-boxed badge-soft-warning text-dark ">Success</span></td>
-                        <td><button class="btn btn-sm btn-success"><i class="mdi mdi-plus"></i> Tambah Uang</button></td>
-
-                </tr>
-                    <tr>
-                    <td>
-                    <!-- Add more rows as needed -->
-            </tbody>
-        </table>
-        </div>
-        <!--end table-responsive-->
-        <div class="pt-3 border-top text-right"><a href="#" class="text-dark">View all <i class="mdi mdi-arrow-right"></i></a></div>
+                </thead>
+                <tbody>
+                    @foreach ($transfers as $transfer)
+                        <tr>
+                            <td>{{ $transfer->from_account }}</td>
+                            <td>{{ $transfer->to_account }}</td>
+                            <td>${{ number_format($transfer->amount, 2) }}</td>
+                            <td>{{ $transfer->created_at->format('Y-m-d H:i:s') }}</td>
+                            <td>
+                                
+                                <form action="{{ route('transactions.delete', $transfer->id) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-danger"><i class="mdi mdi-delete"></i> Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @else
+            <p>Tidak ada data transaksi yang tersedia.</p>
+        @endif
+        
     </div>
+</div>
 
+        
     <div id="transfer" class="content">
     <h3>Transfer Funds</h3>
     <form method="POST" action="{{ route('transfer.store') }}">
@@ -220,8 +220,73 @@
             </div>
 
                 <button type="button" class="btn btn-outline-success" onclick="showSwal('success-message')">Transfer</button>
-            </div>
         </form>
+
+        <div id="transfer-history" class="mt-4">
+    <h3>Transfer History</h3>
+    <ul id="transfer-history-list">
+        <!-- Transfer history items will be dynamically populated here -->
+        <!-- <li data-transfer-id="1"> -->
+            <!-- <button class="btn btn-sm btn-danger float-end" onclick="deleteTransaction(1)">
+                <i class="mdi mdi-delete"></i> Delete
+            </button> -->
+        </li>
+    </ul>
+</div>
+    </div>
+</div>
+
+
+        
+      
+<div id="news" class="content">
+    <h2>Latest News</h2>
+    <p>Explore our latest news and updates:</p>
+
+    
+        <div class="card mb-3">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="https://www.bni.co.id/Portals/1/xNews/uploads/2024/6/20/146242.jpg" class="img-fluid rounded-start" alt="BNI News Image">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">BNI News Article</h5>
+                    <p class="card-text">Check out the latest article from BNI:</p>
+                    <a href="https://www.bni.co.id/id-id/beranda/kabar-bni/berita/articleid/23497" class="btn btn-primary" target="_blank">Read Article</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card mb-3">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="https://images.bisnis.com/posts/2024/06/26/1777344/02052024-bi-bio-24-ihsg_4_1714655020.jpg" class="img-fluid rounded-start" alt="Bisnis.com News Image">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">AMMN-ADMR Report on Jumbo's Stock Transactions</h5>
+                    <p class="card-text">Read about the latest stock transaction report and its impact on stock prices.</p>
+                    <a href="https://market.bisnis.com/read/20240626/7/1777344/ammn-admr-laporkan-transaksi-saham-jumbo-cek-pengaruh-ke-harga-saham" class="btn btn-primary" target="_blank">Read Article</a>
+                </div>
+            </div>
+        </div>
+        <!-- <form id="news-search-form">
+            <div class="mb-3">
+                <label for="news-search" class="form-label">Search News</label>
+                <input type="text" class="form-control" id="news-search" placeholder="Enter keywords">
+            </div>
+            <button type="button" class="btn btn-primary" onclick="searchNews()">Search</button>
+            <button type="button" class="btn btn-secondary" onclick="resetSearch()">Reset</button>
+        </form>
+
+        < <div id="news-results">
+            <!-- Search results will be displayed here -->
+        <!-- </div> 
+    </div> -->
+</div> 
+    </div>
+</div>
 </div>
 
 <!-- Include jQuery, Bootstrap JS, and SweetAlert JS -->
@@ -231,6 +296,8 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <script>
+ 
+   
     document.addEventListener('DOMContentLoaded', function () {
         const links = document.querySelectorAll('.nav-link');
         const contents = document.querySelectorAll('.content');
@@ -332,12 +399,20 @@
             swal('Error', 'Silakan lengkapi semua kolom yang diperlukan.', 'error');
             return;
         }
+        
 
         // Kirim data ke server menggunakan Axios jika valid
         axios.post('{{ route('transfer.store') }}', formData)
             .then(function(response) {
                 // Tanggapan dari server (opsional)
                 console.log(response.data);
+
+                const currentDate = new Date();
+                const createdAt = currentDate.toLocaleString();
+                const transferHistoryList = document.getElementById('transfer-history-list');
+        const newTransferItem = document.createElement('li');
+        newTransferItem.textContent = `Transfer ${formData.amount} to ${formData.toAccount} pada ${createdAt}`;
+        transferHistoryList.appendChild(newTransferItem);
                 // Tampilkan notifikasi sukses kepada pengguna
                 swal({
                     title: 'Sukses',
@@ -346,6 +421,8 @@
                 }).then((value) => {
                     // Lakukan pengalihan halaman atau tindakan lain jika diperlukan
                     window.location.href = '{{ route('transfer.store') }}'; // Ganti dengan URL tujuan
+                    // window.location.href = '{{ route('transactions') }}'; // Ganti dengan route untuk menampilkan transaksi
+
                 });
             })
             .catch(function(error) {
@@ -356,7 +433,10 @@
     } else {
         swal('Terjadi kesalahan!');
     }
+   
+   
 }
+
 </script>
 </body>
 </html>

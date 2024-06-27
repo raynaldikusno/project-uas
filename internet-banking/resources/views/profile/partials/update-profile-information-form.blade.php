@@ -32,6 +32,12 @@
         </div>
 
         <div>
+            <x-input-label for="phone" :value="__('Phone Number')" />
+            <x-text-input id="phone" name="phone" type="tel" class="mt-1 block w-full" :value="old('phone', $user->phone)" required autocomplete="tel" />
+            <x-input-error class="mt-2" :messages="$errors->get('phone')" />
+        </div>
+
+        <div>
             <x-input-label for="profile_image" :value="__('Profile Image')" />
             <div class="mt-1 block w-full">
                 <label>
@@ -94,5 +100,11 @@
                 >{{ __('Saved.') }}</p>
             @endif
         </div>
+
+        @if (session('status'))
+            <div class="alert alert-success">
+                {{ session('status') }}
+            </div>
+        @endif
     </form>
 </section>

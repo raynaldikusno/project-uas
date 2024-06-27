@@ -35,6 +35,35 @@ Route::middleware('auth')->group(function () {
     Route::post('/transfer', [TransferController::class, 'store'])->middleware('auth');
     Route::post('/transfer', [TransferController::class, 'store'])->name('transfer.store');
 
+    Route::middleware(['auth'])->group(function () {
+        Route::post('/profile/update', [ProfileController::class, 'updateProfile'])->name('profile.update');
+        Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::post('/profile/topup', [ProfileController::class, 'topup'])->name('profile.topup');
+        Route::post('/profile/delete', [ProfileController::class, 'destroy'])->name('profile.delete');
+        Route::middleware(['auth'])->group(function () {
+            // Routes for transfers
+            Route::get('/transfers/create', [TransferController::class, 'create'])->name('transfers.create');
+            // Route::post('/transfers/store', [TransferController::class, 'store'])->name('transfers.store');
+            // Route::get('/transfers/create', 'TransferController@create')->name('transfers.create');
+            Route::post('/transfers', [TransferController::class, 'store'])->name('transfers.store');
+            Route::get('/transfers/create', [TransferController::class, 'create'])->name('transfers.create');
+            Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
+            // Route::delete('/transactions/{id}', [TransactionController::class, 'destroy'])->name('transactions.delete');
+            Route::get('/transactions', [TransferController::class, 'showTransactions'])->name('transactions');
+            Route::get('/investment', [InvestmentController::class, 'index'])->name('investment');
+            Route::get('/transfer/history', 'TransferController@getTransferHistory')->name('transfer.history');
+            Route::delete('transactions/delete/{id}', [TransactionController::class, 'delete'])->name('transactions.delete');
+
+
+            // Rute untuk halaman berita
+            Route::get('/news', [NewsController::class, 'index'])->name('news');
+            
+
+        });
+
+
+    });
+
     Auth::routes();
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
