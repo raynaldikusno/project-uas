@@ -45,7 +45,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/transfers/create', [TransferController::class, 'create'])->name('transfers.create');
             // Route::post('/transfers/store', [TransferController::class, 'store'])->name('transfers.store');
             // Route::get('/transfers/create', 'TransferController@create')->name('transfers.create');
-            Route::post('/transfer', [TransferController::class, 'store'])->name('transfer.store');
+            Route::post('/transfers', [TransferController::class, 'store'])->name('transfers.store');
             Route::get('/transfers/create', [TransferController::class, 'create'])->name('transfers.create');
             Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
             // Route::delete('/transactions/{id}', [TransactionController::class, 'destroy'])->name('transactions.delete');

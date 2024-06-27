@@ -27,6 +27,12 @@
                 </header>
             @endisset
 
+            @if (session('global_status'))
+                <x-alert type="success">
+                    {{ session('global_status') }}
+                </x-alert>
+            @endif
+
             <!-- Page Content -->
             <main>
                 {{ $slot }}
